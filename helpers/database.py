@@ -31,10 +31,10 @@ def git_info_files(path):
     return response.json()["data"]["attributes"]["results"]
 
 # def print_info(dictionary):
-#     for name in dictionary:
-#         print("Антивирус: ", name)
-#         print("Результат: ", dictionary[name]["result"])
-#         print('\n')
+    # for name in dictionary:
+    #     print("Антивирус: ", name)
+    #     print("Результат: ", dictionary[name]["result"])
+    #     print('\n')
 
 
 # result = git_info_files("virus2")
