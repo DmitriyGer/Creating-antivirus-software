@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from app import win_test
 
-class mainwindow(QWidget):
+class MainWindow(QWidget):
     def _init_(self):
         super()._init_()
         self.set_win()
