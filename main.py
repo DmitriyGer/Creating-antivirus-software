@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QApplicatoin
+from PyQt5.QtWidgets import QApplication
 from app import mainwindow
 
 if __name__ == "__main__":
-    app = QApplicatoin([])
+    app = QApplication([])
     mw = mainwindow.MainWindow()
     app.exec_()
