@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from helpers import database
 
-class MainWindow(QWidget):
+class TestWin(QWidget):
     def __init__(self, cur_file):
         super().__init__()
         self.cur_file = cur_file
@@ -24,7 +24,7 @@ class MainWindow(QWidget):
 
         s_a = QScrollArea(self)
 
-        data=database.git_info_files(self.cur_file)
+        data = database.git_info_files(self.cur_file)
 
         for name in data:
             result = f"Антивирус: {name}\n Результат: {data[name]['result']}\n"

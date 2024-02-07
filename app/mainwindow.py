@@ -6,8 +6,8 @@ from PyQt5.QtCore import Qt
 from app import win_test
 
 class MainWindow(QWidget):
-    def _init_(self):
-        super()._init_()
+    def __init__(self):
+        super().__init__()
         self.set_win()
         self.initUI()
         self.connects()
@@ -15,7 +15,7 @@ class MainWindow(QWidget):
 
     def set_win(self):
         '''Нвстройка экрана'''
-        self.setWindowTitle('Моя первоя программа')
+        self.setWindowTitle(' НАЗВАНИЕ АНТИВИРУСА ')
         self.resize(800, 600)
 
     def initUI(self):
@@ -25,8 +25,8 @@ class MainWindow(QWidget):
         self.b_malware = QPushButton('Сканировать файл')
         self.b_exit = QPushButton('Выход')
 
-        layout.addwidget(self.b_malware, alignment = Qt.Alignmenter)
-        layout.addwidget(self.b_exit, alignment = Qt.Alignmenter)
+        layout.addWidget(self.b_malware, alignment = Qt.AlignCenter)
+        layout.addWidget(self.b_exit, alignment = Qt.AlignCenter)
         
         self.setLayout(layout)
 
@@ -35,4 +35,5 @@ class MainWindow(QWidget):
         self.b_malware.clicked.connect(self.click_malware)
     
     def click_malware(self):
-        self.cur_tile = QFileDialog.getOpenFileName()[0]
+        self.cur_file = QFileDialog.getOpenFileName()[0]
+        self.tw = win_test.TestWin(self.cur_file)
