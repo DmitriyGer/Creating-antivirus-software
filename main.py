@@ -28,8 +28,14 @@ def git_info_files(path):
 
     response = requests.get(url, headers=headers)
 
-    print(response.text)
+    return response.json()["data"]["attributes"]["results"]
 
-result = git_info_files("text.txt")
+def print_info(dictionary):
+    for name in dictionary:
+        print("Антивирус: ", name)
+        print("Результат: ", dictionary[name]["result"])
+        print('\n')
 
-print(result)
+
+result = git_info_files("virus2")
+print_info(result)
