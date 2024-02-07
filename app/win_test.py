@@ -26,10 +26,14 @@ class TestWin(QWidget):
 
         data = database.git_info_files(self.cur_file)
 
-        for name in data:
-            result = f"Антивирус: {name}\n Результат: {data[name]['result']}\n"
-            label = QLabel(result)
+        if len(data) == 0:
+            label = QLabel("Запрос создан, ожидайте ...")
             layout.addWidget(label, alignment=Qt.AlignCenter)
+        else:
+            for name in data:
+                result = f"Антивирус: {name}\n Результат: {data[name]['result']}\n"
+                label = QLabel(result)
+                layout.addWidget(label, alignment=Qt.AlignCenter)
 
         # for i in range(100):
         #     label = QLabel(f"Строка номер {i}")

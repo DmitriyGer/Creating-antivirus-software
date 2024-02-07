@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, 
-    QFileDialog
+    QFileDialog, QApplication
 )
 from PyQt5.QtCore import Qt
 from app import win_test
@@ -33,7 +33,10 @@ class MainWindow(QWidget):
     def connects(self):
         '''Подключение события'''
         self.b_malware.clicked.connect(self.click_malware)
+        self.b_exit.clicked.connect(QApplication.quit)
     
     def click_malware(self):
         self.cur_file = QFileDialog.getOpenFileName()[0]
-        self.tw = win_test.TestWin(self.cur_file)
+        if not self.cur_file == "":
+            self.tw = win_test.TestWin(self.cur_file)
+        
