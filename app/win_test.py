@@ -27,7 +27,7 @@ class MainWindow(QWidget):
         data=database.git_info_files(self.cur_file)
 
         for name in data:
-            result = f"Антивирус: {name}\n Результат: {data[name]["result"]}\n"
+            result = f"Антивирус: {name}\n Результат: {data[name]['result']}\n"
             label = QLabel(result)
             layout.addWidget(label, alignment=Qt.AlignCenter)
 
