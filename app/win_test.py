@@ -15,7 +15,7 @@ class TestWin(QWidget):
 
     def set_win(self):
         """ Настройка экрана """
-        self.setWindowTitle("Окно сканирования - НАЗВАНИЕ ПРОГРАММЫ")
+        self.setWindowTitle("BaohuMe - Окно сканирования")
         self.resize(500, 400)
     
     def initUI(self):

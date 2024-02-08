@@ -15,7 +15,7 @@ class MainWindow(QWidget):
 
     def set_win(self):
         '''Нвстройка экрана'''
-        self.setWindowTitle(' НАЗВАНИЕ АНТИВИРУСА ')
+        self.setWindowTitle('BaohuMe')
         self.resize(800, 600)
 
     def initUI(self):
