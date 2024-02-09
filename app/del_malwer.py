@@ -16,7 +16,7 @@ class WarningWindow(QWidget):
     def set_win(self):
         '''Нвстройка экрана'''
         self.setWindowTitle('BaohuMe - Внимание, угроза!')
-        self.resize(400, 200)
+        self.resize(500, 200)
 
 
     """ Создание виджета и направляющих """
@@ -27,8 +27,8 @@ class WarningWindow(QWidget):
         self.delite = QPushButton('Удалить')
         self.ignore = QPushButton('Игнорировать')
 
-        layout.addWidget(self.delite, alignment = Qt.AlignLeft)
-        layout.addWidget(self.ignore, alignment = Qt.AlignRight)
+        layout.addWidget(self.delite, alignment = Qt.AlignCenter)
+        layout.addWidget(self.ignore, alignment = Qt.Aligncenter)
 
         self.setLayout(layout)
 
@@ -36,6 +36,7 @@ class WarningWindow(QWidget):
     """ Подключение событий """
     def connects(self):
         self.delite.clicked.connect(self.click_delite)
+        self.ignore.clicked.connect(self.click_ignore)
 
     
     """ Функция удаления файла """
@@ -45,3 +46,9 @@ class WarningWindow(QWidget):
         result = "Угроза успешно удалена"
         label = QLabel(result)
         layout.addWidget(label, alignment=Qt.AlignCenter)
+
+    
+    """ Функция для игнорирования угрозы """
+    def click_ignore(self):
+        layout = QVBoxLayout()
+        layout.drawText(100,100, "Hello PyQt5 App Development")
