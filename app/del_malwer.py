@@ -27,8 +27,8 @@ class WarningWindow(QWidget):
         self.delite = QPushButton('Удалить')
         self.ignore = QPushButton('Игнорировать')
 
-        layout.addWidget(self.delite, alignment = Qt.AlignCenter)
-        layout.addWidget(self.ignore, alignment = Qt.Aligncenter)
+        layout.addWidget(self.delite, alignment = Qt.AlignLeft)
+        layout.addWidget(self.ignore, alignment = Qt.AlignRight)
 
         self.setLayout(layout)
 
@@ -46,6 +46,7 @@ class WarningWindow(QWidget):
         result = "Угроза успешно удалена"
         label = QLabel(result)
         layout.addWidget(label, alignment=Qt.AlignCenter)
+        
 
     
     """ Функция для игнорирования угрозы """
