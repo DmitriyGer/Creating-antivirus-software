@@ -1,10 +1,11 @@
 import os
 from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QScrollArea, QLabel, QPushButton
+    QWidget, QVBoxLayout, QScrollArea, QLabel
 )
 
 from PyQt5.QtCore import Qt
 from helpers import database
+from app import del_malwer
 
 class TestWin(QWidget):
     def __init__(self, cur_file):
@@ -12,7 +13,6 @@ class TestWin(QWidget):
         self.cur_file = cur_file
         self.set_win()
         self.initUI()
-        self.connects()
         self.show()
 
     """ Настройка экрана """
@@ -25,14 +25,14 @@ class TestWin(QWidget):
         layout = QVBoxLayout()
         s_a = QScrollArea(self)
 
-        """ Работа над кнопками "Удалить" или "Игнорировать" """
-        self.delite = QPushButton('Удалить')
-        self.ignore = QPushButton('Игнорировать')
+        # """ Работа над кнопками "Удалить" или "Игнорировать" """
+        # self.delite = QPushButton('Удалить')
+        # self.ignore = QPushButton('Игнорировать')
 
-        layout.addWidget(self.delite, alignment = Qt.AlignCenter)
-        layout.addWidget(self.ignore, alignment = Qt.AlignCenter)
+        # layout.addWidget(self.delite, alignment = Qt.AlignCenter)
+        # layout.addWidget(self.ignore, alignment = Qt.AlignCenter)
 
-        self.setLayout(layout)
+        # self.setLayout(layout)
 
         """ Объявление базы данных """
         data = database.git_info_files(self.cur_file)
@@ -53,7 +53,7 @@ class TestWin(QWidget):
         name_file = self.cur_file.split("/")[-1]
 
 
-        """ Перебор по БД обнаружение кол-во срабатываний """
+        """ Перебор по БД, обнаружение кол-во срабатываний """
         return_scan = 0
         for name in data:
             if data[name]['result'] != None:
@@ -73,6 +73,7 @@ class TestWin(QWidget):
                 result = f"В файле {name_file} обнаружена угроза"
                 label = QLabel(result)
                 layout.addWidget(label, alignment=Qt.AlignCenter)
+                self.dm = del_malwer.WarningWindow(self.cur_file)
                 
 
         """ Проверка работы вывода алгоритма. Простой список от 1 до 100 """
@@ -89,15 +90,15 @@ class TestWin(QWidget):
         main_layout.addWidget(s_a)
 
     
-    """ Подключение событий """
-    def connects(self):
-        self.delite.clicked.connect(self.click_delite)
+    # """ Подключение событий """
+    # def connects(self):
+    #     self.delite.clicked.connect(self.click_delite)
 
     
-    """ Функция удаления файла """
-    def click_delite(self):
-        layout = QVBoxLayout()
-        os.remove(self.cur_file)
-        result = "Угроза успешно удалена"
-        label = QLabel(result)
-        layout.addWidget(label, alignment=Qt.AlignCenter)
+    # """ Функция удаления файла """
+    # def click_delite(self):
+    #     layout = QVBoxLayout()
+    #     os.remove(self.cur_file)
+    #     result = "Угроза успешно удалена"
+    #     label = QLabel(result)
+    #     layout.addWidget(label, alignment=Qt.AlignCenter)
