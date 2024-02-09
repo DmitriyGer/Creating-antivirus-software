@@ -1,5 +1,6 @@
+import os
 from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QScrollArea, QLabel
+    QWidget, QVBoxLayout, QScrollArea, QLabel, QPushButton
 )
 
 from PyQt5.QtCore import Qt
@@ -11,6 +12,7 @@ class TestWin(QWidget):
         self.cur_file = cur_file
         self.set_win()
         self.initUI()
+        self.connects()
         self.show()
 
     """ Настройка экрана """
@@ -23,6 +25,14 @@ class TestWin(QWidget):
         layout = QVBoxLayout()
         s_a = QScrollArea(self)
 
+        """ Работа над кнопками "Удалить" или "Игнорировать" """
+        self.delite = QPushButton('Удалить')
+        self.ignore = QPushButton('Игнорировать')
+
+        layout.addWidget(self.delite, alignment = Qt.AlignCenter)
+        layout.addWidget(self.ignore, alignment = Qt.AlignCenter)
+
+        self.setLayout(layout)
 
         """ Объявление базы данных """
         data = database.git_info_files(self.cur_file)
@@ -77,3 +87,17 @@ class TestWin(QWidget):
 
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(s_a)
+
+    
+    """ Подключение событий """
+    def connects(self):
+        self.delite.clicked.connect(self.click_delite)
+
+    
+    """ Функция удаления файла """
+    def click_delite(self):
+        layout = QVBoxLayout()
+        os.remove(self.cur_file)
+        result = "Угроза успешно удалена"
+        label = QLabel(result)
+        layout.addWidget(label, alignment=Qt.AlignCenter)
