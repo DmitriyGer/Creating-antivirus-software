@@ -39,4 +39,6 @@ class MainWindow(QWidget):
         self.cur_file = QFileDialog.getOpenFileName()[0]
         if not self.cur_file == "":
             self.tw = win_test.TestWin(self.cur_file)
+
+# строка для создания комита (удалить при работе)
         
