@@ -1,6 +1,6 @@
 import os
 from PyQt5.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel
+    QWidget, QPushButton, QVBoxLayout, QLabel, QApplication
 )
 from PyQt5.QtCore import Qt
 
@@ -51,5 +51,4 @@ class WarningWindow(QWidget):
     
     """ Функция для игнорирования угрозы """
     def click_ignore(self):
-        layout = QVBoxLayout()
-        layout.drawText(100,100, "Hello PyQt5 App Development")
+        self.ignore.clicked.connect(QApplication.quit)
