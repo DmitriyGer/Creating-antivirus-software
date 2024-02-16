@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
 class ScanPage(QWidget):
     def __init__(self, parent=None):
@@ -59,8 +59,7 @@ class MainWindow(QWidget):
         self.page_widget.setCurrentIndex(page_num)
 
     def close_app(self):
-        confirm = QMessageBox.question(self, 'Подтверждение', 'Вы уверены, что хотите закрыть?',
-                                       QMessageBox.Yes | QMessageBox.No)
+        confirm = QMessageBox.question(self, 'Подтверждение', 'Вы уверены, что хотите закрыть?', QMessageBox.Yes | QMessageBox.No)
         
         if confirm == QMessageBox.Yes:
             self.close()
