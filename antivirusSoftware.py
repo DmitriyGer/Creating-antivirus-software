@@ -10,7 +10,19 @@ class ScanPage(QWidget):
         self.label = QLabel("Страница сканирования\n")
         self.layout.addWidget(self.label)
 
+        self.file_button = QPushButton("Выбрать файл")
+        self.file_button.clicked.connect(self.select_file)
+        self.layout.addWidget(self.file_button)
+
         self.setLayout(self.layout)
+
+    def select_file(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.ReadOnly
+        file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "",
+                                              "Все файлы (*)", options=options)
+        if file:
+            print("Выбран файл:", file)
 
 class DevelopersPage(QWidget):
     def __init__(self, parent=None):
