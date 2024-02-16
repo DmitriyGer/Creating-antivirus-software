@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
+from app import win_test
+
 class ScanPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -16,13 +18,17 @@ class ScanPage(QWidget):
 
         self.setLayout(self.layout)
 
+    # Функции
+        
+    # Функция выбора файла
     def select_file(self):
         options = QFileDialog.Options()
-        options |= QFileDialog.ReadOnly
+        # options |= QFileDialog.ReadOnly
         file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "",
                                               "Все файлы (*)", options=options)
         if file:
             print("Выбран файл:", file)
+            self.tw = win_test.TestWin(file)
 
 class DevelopersPage(QWidget):
     def __init__(self, parent=None):
