@@ -2,8 +2,6 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
-from app import win_test
-
 """ Страница сканирования"""
 class ScanPage(QWidget):
     def __init__(self, parent=None):
@@ -40,13 +38,13 @@ class DevelopersPage(QWidget):
 
         self.setLayout(self.layout)
 
-""" Страница сканирования """
-class ScanPage(QWidget):
+""" Страница тестирования """
+class TestPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования")
+        self.label = QLabel("Страница тестирования")
         self.layout.addWidget(self.label)
 
         self.setLayout(self.layout)
