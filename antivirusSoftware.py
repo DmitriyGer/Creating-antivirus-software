@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLa
 
 from app import win_test
 
+""" Страница сканирования"""
 class ScanPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -24,12 +25,11 @@ class ScanPage(QWidget):
     def select_file(self):
         options = QFileDialog.Options()
         # options |= QFileDialog.ReadOnly
-        file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "",
-                                              "Все файлы (*)", options=options)
+        file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "", "Все файлы (*)", options=options)
         if file:
             print("Выбран файл:", file)
-            self.tw = win_test.TestWin(file)
 
+""" Страница о разработчиках """
 class DevelopersPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -40,11 +40,23 @@ class DevelopersPage(QWidget):
 
         self.setLayout(self.layout)
 
+""" Страница сканирования """
+class ScanPage(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.layout = QVBoxLayout()
+        self.label = QLabel("Страница сканирования")
+        self.layout.addWidget(self.label)
+
+        self.setLayout(self.layout)
+
+""" Основной класс """
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('BaohuMe')
-        self.resize(800, 600)
+        self.resize(600, 400)
 
         self.menu_layout = QVBoxLayout()
         self.page_widget = QStackedWidget()
