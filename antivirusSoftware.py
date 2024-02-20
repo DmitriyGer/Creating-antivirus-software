@@ -37,7 +37,7 @@ class ScanPage(QWidget):
     def show_testing_page(self, file):
         data = database.git_info_files(file)
         name_file = file.split("/")[-1]
-        # self.label.setText(f"Выбранный файл: {name_file}")
+        self.label.setText(f"Выбранный файл: {name_file}")
         
         """ Перебор по БД, обнаружение кол-во срабатываний """
         return_scan = 0
@@ -48,23 +48,20 @@ class ScanPage(QWidget):
         """ Вывод результатов сканирования пользователю """
         if len(data) == 0:
             self.label.setText("Запрос создан, ожидайте ...")
-            print("Запрос создан")
         else:
             if return_scan == 0:
                 self.label.setText(f"В файле {name_file} угрозы не обнаружены")
-                print("Нет")
             else:
-                print("Усть")
                 self.label.setText(f"В файле {name_file} обнаружена угроза")
                 # self.dm = del_malwer.WarningWindow(file)
-                del_malwer(file)
+                # del_malwer(file)
 
     """ Функция удаления файла """
     def del_malwer(self, file):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы действительно хотите удалить файл?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             os.remove(file)
-            print("Удален успешно")
+            
 
 
 """ Страница о разработчиках """
