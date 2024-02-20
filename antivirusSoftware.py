@@ -1,9 +1,9 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog, QScrollArea
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
 from helpers import database
-from app import del_malwer
+# from app import del_malwer
 
 """ Страница сканирования"""
 class ScanPage(QWidget):
@@ -28,16 +28,17 @@ class ScanPage(QWidget):
         options = QFileDialog.Options()
         # options |= QFileDialog.ReadOnly
         file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "", "Все файлы (*)", options=options)
-        if file:
-            print("Выбран файл:", file)   
+        if file:   
             self.show_testing_page(file)         
             
 
     """ Функция вызова стр. тест """
     def show_testing_page(self, file):
+        
         data = database.git_info_files(file)
         name_file = file.split("/")[-1]
-        self.label.setText(f"Выбранный файл: {name_file}")
+
+        # self.label.setText(f"Выбранный файл: {name_file}")
         
         """ Перебор по БД, обнаружение кол-во срабатываний """
         return_scan = 0
@@ -54,7 +55,7 @@ class ScanPage(QWidget):
             else:
                 self.label.setText(f"В файле {name_file} обнаружена угроза")
                 # self.dm = del_malwer.WarningWindow(file)
-                # del_malwer(file)
+                self.del_malwer(file)
 
     """ Функция удаления файла """
     def del_malwer(self, file):
