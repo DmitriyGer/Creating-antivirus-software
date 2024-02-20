@@ -16,7 +16,7 @@ class WarningWindow(QWidget):
     def set_win(self):
         '''Нвстройка экрана'''
         self.setWindowTitle('BaohuMe - Внимание, угроза!')
-        self.resize(500, 200)
+        self.resize(600, 400)
 
 
     """ Создание виджета и направляющих """
@@ -36,7 +36,7 @@ class WarningWindow(QWidget):
     """ Подключение событий """
     def connects(self):
         self.delite.clicked.connect(self.click_delite)
-        self.ignore.clicked.connect(self.click_ignore)
+        self.ignore.clicked.connect(QApplication.quit)
 
     
     """ Функция удаления файла """
@@ -49,6 +49,6 @@ class WarningWindow(QWidget):
         
 
     
-    """ Функция для игнорирования угрозы """
-    def click_ignore(self):
-        self.ignore.clicked.connect(QApplication.quit)
+    # """ Функция для игнорирования угрозы """
+    # def click_ignore(self):
+    #     self.ignore.clicked.connect(QApplication.quit)
