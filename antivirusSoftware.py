@@ -3,7 +3,6 @@ import os
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
 from helpers import database
-# from app import del_malwer
 
 """ Страница сканирования"""
 class ScanPage(QWidget):
@@ -52,17 +51,47 @@ class ScanPage(QWidget):
         else:
             if return_scan == 0:
                 self.label.setText(f"В файле {name_file} угрозы не обнаружены")
+                self.return_to_main()
             else:
                 self.label.setText(f"В файле {name_file} обнаружена угроза")
-                # self.dm = del_malwer.WarningWindow(file)
                 self.del_malwer(file)
+
 
     """ Функция удаления файла """
     def del_malwer(self, file):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы действительно хотите удалить файл?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             os.remove(file)
-            
+            self.confirmation_del_malwer()
+
+
+    """ Функция подтверждения удаления файла """
+    def confirmation_del_malwer(self):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
+        if confirm == QMessageBox.Close:
+            self.label.clear() # Доработать функцию возврата на начальный экран
+            self.label = QLabel("Страница сканирования\n")
+            self.layout.addWidget(self.label)
+
+
+    """ Функция возвращения на главный экран (угроз не обноружено) """
+    def return_to_main(self):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы хотите вернуться на главный экран?', QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.Yes:
+            self.label.clear() # Доработать функцию возврата на начальный экран
+            self.label = QLabel("Страница сканирования\n")
+            self.layout.addWidget(self.label)
+    
+""" Страница сканирования в реальном времени """
+class ScanRealTime(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.layout = QVBoxLayout()
+        self.label = QLabel("Страница сканирования в реальном времени")
+        self.layout.addWidget(self.label)
+
+        self.setLayout(self.layout)
 
 
 """ Страница о разработчиках """
@@ -91,8 +120,12 @@ class MainWindow(QWidget):
         self.scan_button.clicked.connect(lambda: self.load_page(0))
         self.menu_layout.addWidget(self.scan_button)
 
+        self.scan_real_time = QPushButton("Сканирование в раельном времени")
+        self.scan_real_time.clicked.connect(lambda: self.load_page(1))
+        self.menu_layout.addWidget(self.scan_real_time)
+
         self.developers_button = QPushButton("О разработчиках")
-        self.developers_button.clicked.connect(lambda: self.load_page(1))
+        self.developers_button.clicked.connect(lambda: self.load_page(2))
         self.menu_layout.addWidget(self.developers_button)
 
         self.close_button = QPushButton("Закрыть")
@@ -100,13 +133,16 @@ class MainWindow(QWidget):
         self.menu_layout.addWidget(self.close_button)
 
         self.scan_page = ScanPage()
+        self.scan_real_time = ScanRealTime()
         self.developers_page = DevelopersPage()
 
         self.page_widget.addWidget(self.scan_page)
+        self.page_widget.addWidget(self.scan_real_time)
         self.page_widget.addWidget(self.developers_page)
 
         self.layout = QHBoxLayout()
         self.layout.addLayout(self.menu_layout)
+
         self.layout.addWidget(self.page_widget)
 
         self.setLayout(self.layout)
