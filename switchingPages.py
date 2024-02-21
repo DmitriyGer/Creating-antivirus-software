@@ -399,90 +399,90 @@
 
 # Вариант: 6
 
-import sys
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget, QMessageBox, QFileDialog
+# import sys
+# from PyQt5.QtCore import Qt
+# from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget, QMessageBox, QFileDialog
 
-class ScanPage(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+# class ScanPage(QWidget):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
         
-        self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования")
-        self.layout.addWidget(self.label)
+#         self.layout = QVBoxLayout()
+#         self.label = QLabel("Страница сканирования")
+#         self.layout.addWidget(self.label)
 
-        self.file_button = QPushButton("Выбрать файл")
-        self.file_button.clicked.connect(self.select_file)
-        self.layout.addWidget(self.file_button)
+#         self.file_button = QPushButton("Выбрать файл")
+#         self.file_button.clicked.connect(self.select_file)
+#         self.layout.addWidget(self.file_button)
 
-        self.setLayout(self.layout)
+#         self.setLayout(self.layout)
 
-    def select_file(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Выбрать файл", "", "All Files (*)")
-        if file_path:
-            self.label.setText(f"Выбран файл: {file_path}")
+#     def select_file(self):
+#         file_path, _ = QFileDialog.getOpenFileName(self, "Выбрать файл", "", "All Files (*)")
+#         if file_path:
+#             self.label.setText(f"Выбран файл: {file_path}")
 
-class AboutPage(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.layout = QVBoxLayout()
-        self.label = QLabel("Страница 'О разработчиках'")
-        self.layout.addWidget(self.label)
+# class AboutPage(QWidget):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
+#         self.layout = QVBoxLayout()
+#         self.label = QLabel("Страница 'О разработчиках'")
+#         self.layout.addWidget(self.label)
 
-        self.setLayout(self.layout)
+#         self.setLayout(self.layout)
 
-class MainWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('BaohuMe')
-        self.resize(800, 600)
+# class MainWindow(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle('BaohuMe')
+#         self.resize(800, 600)
 
-        self.menu_layout = QVBoxLayout()
-        self.page_widget = QStackedWidget()
+#         self.menu_layout = QVBoxLayout()
+#         self.page_widget = QStackedWidget()
 
-        self.scan_button = QPushButton("Сканирование")
-        self.scan_button.clicked.connect(self.load_scan_page)
-        self.menu_layout.addWidget(self.scan_button)
+#         self.scan_button = QPushButton("Сканирование")
+#         self.scan_button.clicked.connect(self.load_scan_page)
+#         self.menu_layout.addWidget(self.scan_button)
 
-        self.about_button = QPushButton("О разработчиках")
-        self.about_button.clicked.connect(self.load_about_page)
-        self.menu_layout.addWidget(self.about_button)
+#         self.about_button = QPushButton("О разработчиках")
+#         self.about_button.clicked.connect(self.load_about_page)
+#         self.menu_layout.addWidget(self.about_button)
 
-        self.close_button = QPushButton("Закрыть")
-        self.close_button.clicked.connect(self.close_app)
-        self.menu_layout.addWidget(self.close_button)
+#         self.close_button = QPushButton("Закрыть")
+#         self.close_button.clicked.connect(self.close_app)
+#         self.menu_layout.addWidget(self.close_button)
 
-        self.scan_page = ScanPage()
-        self.about_page = AboutPage()
+#         self.scan_page = ScanPage()
+#         self.about_page = AboutPage()
 
-        self.page_widget.addWidget(self.scan_page)
-        self.page_widget.addWidget(self.about_page)
+#         self.page_widget.addWidget(self.scan_page)
+#         self.page_widget.addWidget(self.about_page)
 
-        self.layout = QVBoxLayout()
-        self.layout.addLayout(self.menu_layout)
-        self.layout.addWidget(self.page_widget)
+#         self.layout = QVBoxLayout()
+#         self.layout.addLayout(self.menu_layout)
+#         self.layout.addWidget(self.page_widget)
 
-        self.setLayout(self.layout)
+#         self.setLayout(self.layout)
 
-    def load_scan_page(self):
-        self.page_widget.setCurrentWidget(self.scan_page)
+#     def load_scan_page(self):
+#         self.page_widget.setCurrentWidget(self.scan_page)
 
-    def load_about_page(self):
-        self.page_widget.setCurrentWidget(self.about_page)
+#     def load_about_page(self):
+#         self.page_widget.setCurrentWidget(self.about_page)
 
-    def close_app(self):
-        confirm = QMessageBox.question(self, 'Подтверждение', 'Вы уверены, что хотите закрыть?',
-                                       QMessageBox.Yes | QMessageBox.No)
+#     def close_app(self):
+#         confirm = QMessageBox.question(self, 'Подтверждение', 'Вы уверены, что хотите закрыть?',
+#                                        QMessageBox.Yes | QMessageBox.No)
 
-        if confirm == QMessageBox.Yes:
-            self.close()
+#         if confirm == QMessageBox.Yes:
+#             self.close()
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
 
 
 
@@ -581,3 +581,60 @@ if __name__ == "__main__":
 #     sys.exit(app.exec_())
 
 
+# """ Для отслеживания файлов """
+
+# import os
+# import time
+
+# # Список папок, которые нужно отслеживать
+# folder_paths = ['C:\\Users\\dim1a\\Desktop\\TestFolder']
+
+# # Словарь для хранения списка файлов в каждой папке на старте
+# initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
+
+# # Основной цикл программы
+# while True:
+#     for folder_path in folder_paths:
+#         current_files = os.listdir(folder_path)
+
+#         # Поиск новых файлов
+#         new_files = [file for file in current_files if file not in initial_files[folder_path]]
+
+#         # Вывод сообщения при обнаружении нового файла
+#         for new_file in new_files:
+#             print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
+
+#         initial_files[folder_path] = current_files
+
+#     time.sleep(5)  # Проверка каждые 5 секунд
+
+
+""" Готовая версия проги для отслеживания файлов """
+
+import os
+import time
+
+# Считывание путей к папкам из файла Folder.txt
+folder_paths = []
+with open('helpers\database_local.txt', 'r') as file:
+    for line in file:
+        folder_paths.append(line.strip())
+
+# Словарь для хранения списка файлов в каждой папке на старте
+initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
+
+# Основной цикл программы
+while True:
+    for folder_path in folder_paths:
+        current_files = os.listdir(folder_path)
+
+        # Поиск новых файлов
+        new_files = [file for file in current_files if file not in initial_files[folder_path]]
+
+        # Вывод сообщения при обнаружении нового файла
+        for new_file in new_files:
+            print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
+
+        initial_files[folder_path] = current_files
+
+    time.sleep(5)  # Проверка каждые 5 секунд
