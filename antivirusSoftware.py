@@ -3,6 +3,7 @@ import os
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 
 from helpers import database
+from app import monitorFiles
 
 """ Страница сканирования"""
 class ScanPage(QWidget):
@@ -69,19 +70,18 @@ class ScanPage(QWidget):
     def confirmation_del_malwer(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
-            self.label.clear() # Доработать функцию возврата на начальный экран
-            self.label = QLabel("Страница сканирования\n")
-            self.layout.addWidget(self.label)
+            self.label.clear()
+            self.label.setText("Страница сканирования")
 
 
     """ Функция возвращения на главный экран (угроз не обноружено) """
     def return_to_main(self):
-        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы хотите вернуться на главный экран?', QMessageBox.Yes | QMessageBox.No)
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Угроз не обнаружено, вернуться на главный экран?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
-            self.label.clear() # Доработать функцию возврата на начальный экран
-            self.label = QLabel("Страница сканирования\n")
-            self.layout.addWidget(self.label)
+            self.label.clear()
+            self.label.setText("Страница сканирования")
     
+
 """ Страница сканирования в реальном времени """
 class ScanRealTime(QWidget):
     def __init__(self, parent=None):
@@ -91,7 +91,55 @@ class ScanRealTime(QWidget):
         self.label = QLabel("Страница сканирования в реальном времени")
         self.layout.addWidget(self.label)
 
+        self.real_time_file_button = QPushButton("Запустить мониторинг файловой системы")
+        self.real_time_file_button.clicked.connect(self.monitor_files)
+        self.layout.addWidget(self.real_time_file_button)
+
         self.setLayout(self.layout)
+    
+    """ Функция для мониторинга добавления новых файлов """
+    def monitor_files(self):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.Yes:
+            print("Отработка команды")
+            os.system('time /t')
+            # folder_paths = []
+            # with open('helpers\database_local.txt', 'r') as file:
+            #     for line in file:
+            #         folder_paths.append(line.strip())
+            # self.dm = monitorFiles.TestWin(folder_paths)
+        
+        
+        
+        # if confirm == QMessageBox.Yes:
+        # print('Start_real_time_scan')
+        # # Считывание путей к папкам из файла Folder.txt
+        # folder_paths = []
+        # with open('helpers\database_local.txt', 'r') as file:
+        #     for line in file:
+        #         folder_paths.append(line.strip())
+
+        # # Словарь для хранения списка файлов в каждой папке на старте
+        # initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
+
+        # # Основной цикл программы
+        # 
+        # while True:
+        #     for folder_path in folder_paths:
+        #         current_files = os.listdir(folder_path)
+
+        #         # Поиск новых файлов
+        #         new_files = [file for file in current_files if file not in initial_files[folder_path]]
+
+        #         # Вывод сообщения при обнаружении нового файла
+        #         for new_file in new_files:
+        #             print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
+
+        #         initial_files[folder_path] = current_files
+
+        #     # time.sleep(5)  # Проверка каждые 5 секунд
+            
+
 
 
 """ Страница о разработчиках """
