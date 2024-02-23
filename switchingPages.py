@@ -611,30 +611,193 @@
 
 """ Готовая версия проги для отслеживания файлов """
 
-import os
-import time
+# import os
+# import time
 
-# Считывание путей к папкам из файла Folder.txt
-folder_paths = []
-with open('helpers\database_local.txt', 'r') as file:
-    for line in file:
-        folder_paths.append(line.strip())
+# # Считывание путей к папкам из файла Folder.txt
+# folder_paths = []
+# with open('helpers\database_local.txt', 'r') as file:
+#     for line in file:
+#         folder_paths.append(line.strip())
 
-# Словарь для хранения списка файлов в каждой папке на старте
-initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
+# # Словарь для хранения списка файлов в каждой папке на старте
+# initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
 
-# Основной цикл программы
-while True:
-    for folder_path in folder_paths:
-        current_files = os.listdir(folder_path)
+# # Основной цикл программы
+# while True:
+#     for folder_path in folder_paths:
+#         current_files = os.listdir(folder_path)
 
-        # Поиск новых файлов
-        new_files = [file for file in current_files if file not in initial_files[folder_path]]
+#         # Поиск новых файлов
+#         new_files = [file for file in current_files if file not in initial_files[folder_path]]
 
-        # Вывод сообщения при обнаружении нового файла
-        for new_file in new_files:
-            print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
+#         # Вывод сообщения при обнаружении нового файла
+#         for new_file in new_files:
+#             print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
 
-        initial_files[folder_path] = current_files
+#         initial_files[folder_path] = current_files
 
-    time.sleep(5)  # Проверка каждые 5 секунд
+#     time.sleep(5)  # Проверка каждые 5 секунд
+
+
+
+
+# import os, time
+
+# def track_folders():
+#     # Считывание путей к папкам из файла Folder.txt
+#     folder_paths = []
+#     with open('Folder.txt', 'r') as file:
+#         for line in file:
+#             folder_paths.append(line.strip())
+
+#     # Словарь для хранения списка файлов в каждой папке на старте
+#     initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
+
+#     while True:
+#         for folder_path in folder_paths:
+#             current_files = os.listdir(folder_path)
+
+#             # Поиск новых файлов
+#             new_files = [file for file in current_files if file not in initial_files[folder_path]]
+
+#             # Вывод сообщения при обнаружении нового файла
+#             for new_file in new_files:
+#                 print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
+
+#             initial_files[folder_path] = current_files
+
+#         # Добавить задержку перед повторной проверкой
+#         # Можно изменить интервал по необходимости
+#         time.sleep(5)  # Проверка каждые 5 секунд
+
+# # Вызов функции для отслеживания изменений в папках
+# track_folders()
+
+
+
+
+# """ Прога для обнаружения нового файла """
+# import sys
+# import os
+# from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+# from PyQt5.QtCore import QFileSystemWatcher
+
+# class VirusScanner(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.initUI()
+
+#     def initUI(self):
+#         self.setWindowTitle('Real-Time Virus Scanner')
+#         self.setGeometry(100, 100, 300, 100)
+        
+#         self.label = QLabel(self)
+#         self.label.setGeometry(10, 10, 300, 30)
+#         self.label.setText('Watching for new files...')
+
+#         self.watcher = QFileSystemWatcher()
+#         self.watcher.directoryChanged.connect(self.directory_changed)
+        
+
+#         # Путь к папке для сканирования
+#         folder_to_scan = "C:\\Users\\dim1a\\Desktop\\TestFolder"
+#         self.watcher.addPath(folder_to_scan)
+
+#     def directory_changed(self, path):
+#         new_files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+#         if new_files:
+#             for new_file in new_files:
+#                 print(f"Добавлен новый файл: {new_file}")
+#                 self.label.setText(f"Добавлен новый файл: {new_file}")
+
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     scanner = VirusScanner()
+#     scanner.show()
+#     sys.exit(app.exec_())
+
+
+""" Прога для обнаружения нового файла  """
+# import sys
+# import os
+# from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel
+# from PyQt5.QtCore import QFileSystemWatcher
+
+# class RealTimeFolderMonitor(QWidget):
+#     def __init__(self, folder_path):
+#         super().__init__()
+        
+#         self.setWindowTitle('Real-Time Folder Monitor')
+#         self.setGeometry(100, 100, 400, 300)
+
+#         self.layout = QVBoxLayout()
+#         self.setLayout(self.layout)
+
+#         self.folder_path = folder_path
+#         self.new_files_label = QLabel('New Files:')
+#         self.layout.addWidget(self.new_files_label)
+
+#         self.file_watcher = QFileSystemWatcher()
+#         self.file_watcher.directoryChanged.connect(self.directory_changed)
+#         self.file_watcher.addPath(folder_path)
+
+#     def directory_changed(self, path):
+#         new_files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+#         print(new_files)
+#         # self.new_files_label.clear()
+#         if new_files:
+#             for new_file in new_files:
+#                 self.new_files_label.setText(self.new_files_label.text() + f'\n{new_file}')
+
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     folder_to_monitor = "C:\\Users\\dim1a\\Desktop\\TestFolder"  # Укажите путь к папке, которую нужно анализировать
+#     folder_monitor = RealTimeFolderMonitor(folder_to_monitor)
+#     folder_monitor.show()
+#     sys.exit(app.exec_())
+
+
+""" Уже чтот лучше """
+
+# import sys
+# import os
+# from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel
+# from PyQt5.QtCore import QTimer
+
+# class RealTimeFolderAnalyzer(QWidget):
+#     def __init__(self, folder_path):
+#         super().__init__()
+
+#         self.setWindowTitle('Real-Time Folder Analyzer')
+#         self.setGeometry(100, 100, 400, 300)
+
+#         self.layout = QVBoxLayout()
+#         self.setLayout(self.layout)
+
+#         self.folder_path = folder_path
+#         self.last_added_file_label = QLabel('Последний добавленный файл: ')
+#         self.layout.addWidget(self.last_added_file_label)
+
+#         self.last_added_file = ''
+#         self.timer = QTimer()
+#         self.timer.timeout.connect(self.check_for_new_file)
+#         self.timer.start(1000)  # Проверять наличие нового файла каждую секунду
+
+#     def check_for_new_file(self):
+#         files = [f for f in os.listdir(self.folder_path) if os.path.isfile(os.path.join(self.folder_path, f))]
+#         files.sort(key=lambda x: os.path.getctime(os.path.join(self.folder_path, x)), reverse=True)
+#         print(files)
+        
+#         if files:
+#             latest_file = files[0]
+#             if latest_file != self.last_added_file:
+#                 self.last_added_file = latest_file
+#                 self.last_added_file_label.setText(f'Последний добавленный файл: {self.last_added_file}')
+
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     folder_to_analyze = "C:\\Users\\dim1a\\Desktop\\TestFolder"  # Укажите путь к папке, которую нужно анализировать
+#     folder_analyzer = RealTimeFolderAnalyzer(folder_to_analyze)
+#     folder_analyzer.show()
+#     sys.exit(app.exec_())
