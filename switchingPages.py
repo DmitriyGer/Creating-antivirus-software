@@ -801,3 +801,212 @@
 #     folder_analyzer = RealTimeFolderAnalyzer(folder_to_analyze)
 #     folder_analyzer.show()
 #     sys.exit(app.exec_())
+
+
+
+# import os
+# import hashlib
+# import sys
+# import time
+
+# file_list = []
+
+# rootdir = "C:\\Users\\dim1a\\Desktop\\TestFolder"
+
+# print("Program starting!")
+# print("[+]Collecting virus definitions and allocating memory[+]")
+
+# for subdir, dirs, files in os.walk(rootdir):
+#     for file in files:
+#         #print os.path.join(subdir, file)
+#         filepath = subdir + os.sep + file
+
+#         if filepath.endswith(".exe") or filepath.endswith(".dll"):
+#             file_list.append(filepath)
+#             #print(filepath)
+
+# print("[+]Virus definition and memory allocation complete...[+]")
+# print("[+]Starting scan...[+]")
+# def countdown():
+#     for x in range(4):
+#         print(x+1)
+#         time.sleep(1)
+
+# countdown()
+
+# def Scan():
+#     infected_list = []
+#     for f in file_list:
+#         virus_defs = open("VirusLIST.txt", "r")
+#         file_not_read = False
+#         print("\nScanning: {}".format(f))
+#         hasher = hashlib.md5()
+#         try:
+#             with open(f, "rb") as file:
+#                 try:
+#                     buf = file.read()
+#                     file_not_read = True
+#                     hasher.update(buf)
+#                     FILE_HASHED = hasher.hexdigest()
+#                     print("File md5 checksum: {}".format(FILE_HASHED))
+#                     for line in virus_defs:
+#                         if FILE_HASHED == line.strip():
+#                             print("[!]Malware Detected[!] | File name: {}".format(f))
+#                             infected_list.append(f)
+#                         else:
+#                             pass
+#                 except Exception as e:
+#                     print("Could not read file | Error: {}".format(e))
+#         except:
+#             pass
+#     print("Infected files found: {}".format(infected_list))
+#     deleteornot = str(input("Would you like to delete the infected files (y/n): "))
+#     if deleteornot.upper() == "Y":
+#         for infected in infected_list:
+#             os.remove(infected)
+#             print("File removed: {}".format(infected))
+#     else:
+#         print("Executed with exit code 0")
+#         os.system("PAUSE")
+# Scan()
+
+
+
+""" Проверка файла черех хеширование НУЖНО """
+import hashlib
+
+# Создаем базу данных с хешами безопасных файлов
+safe_files = {
+    "file1.exe": "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a",
+    "file2.exe": "z9y8x7w6v5u4t3s2r1",
+    # Добавьте сюда остальные файлы
+}
+
+def check_file(file_name):
+    # Читаем содержимое файла
+    with open(file_name, "rb") as file:
+        content = file.read()
+
+    # Хешируем содержимое файла
+    hash_obj = hashlib.sha256()
+    hash_obj.update(content)
+    file_hash = hash_obj.hexdigest()
+
+    # Проверяем, есть ли хеш в базе безопасных файлов
+    if file_hash in safe_files.values():
+        print(f"The file {file_name} is safe.")
+    else:
+        print(f"The file {file_name} may be a threat.")
+
+# Пример использования
+check_file("virus2")
+# check_file("file3.exe")  # Предположительно вредоносный файл
+
+
+""" Перевод файла в хеш код НУЖНО """
+# import hashlib
+
+# def calculate_file_hash(file_path):
+#     sha256_hash = hashlib.sha256()
+#     with open(file_path, "rb") as f:
+#         for byte_block in iter(lambda: f.read(4096), b""):
+#             sha256_hash.update(byte_block)
+#     return sha256_hash.hexdigest()
+
+# def check_file_integrity(file_path, expected_hash):
+#     file_hash = calculate_file_hash(file_path)
+#     if file_hash == expected_hash:
+#         print(f"The file {file_path} is intact.")
+#     else:
+#         print(f"The file {file_path} has been modified.")
+#         print(f"Expected hash: {expected_hash}")
+#         print(f"Actual hash: {file_hash}")
+
+# file_path = "file1.exe"
+# expected_hash = "your_expected_hash"
+
+# check_file_integrity(file_path, expected_hash)
+
+""" Перевод из хещ кода в текст НЕ РАБОЧИЙ """
+# hash_code = 1234567890
+# text = bytes.fromhex(hex(hash_code)[2:]).decode('utf-8')
+# print(text)
+
+
+""" Перевод текста в хеш """
+# import hashlib
+
+# def sha256_hash(text):
+#     sha256 = hashlib.sha256()
+#     sha256.update(text.encode('utf-8'))
+#     return sha256.hexdigest()
+
+# text = "file1.exe"
+# hash_code = sha256_hash(text)
+
+# print(f"Text: {text}")
+# print(f"SHA-256 Hash: {hash_code}")
+
+
+
+
+# import sys
+# import os
+# import hashlib
+# from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QFileDialog, QMessageBox
+
+# class ThreatChecker(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.initUI()
+
+#     def initUI(self):
+#         self.setWindowTitle('Threat Checker')
+#         self.setGeometry(100, 100, 300, 200)
+
+#         self.btn_select_folder = QPushButton('Select Folder', self)
+#         self.btn_select_folder.clicked.connect(self.selectFolder)
+        
+#         self.lbl_result = QLabel('', self)
+
+#         layout = QVBoxLayout()
+#         layout.addWidget(self.btn_select_folder)
+#         layout.addWidget(self.lbl_result)
+
+#         self.setLayout(layout)
+
+#     def selectFolder(self):
+#         folder_path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+#         if folder_path:
+#             threat = self.checkFolder(folder_path)
+#             if threat:
+#                 self.lbl_result.setText('Threat Detected!')
+#             else:
+#                 self.lbl_result.setText('No Threat Detected')
+
+#     def checkFolder(self, folder_path):
+#         threat_detected = False
+#         for root, dirs, files in os.walk(folder_path):
+#             for file in files:
+#                 file_path = os.path.join(root, file)
+#                 file_hash = self.calculateHash(file_path)
+#                 # Perform threat check with the calculated hash
+#                 # If threat detected, set threat_detected = True and break the loop
+#                 if threat_detected:
+#                     break
+#         return threat_detected
+
+#     def calculateHash(self, file_path):
+#         hasher = hashlib.md5()
+#         with open(file_path, 'rb') as f:
+#             buf = f.read()
+#             hasher.update(buf)
+#         return hasher.hexdigest()
+
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     window = ThreatChecker()
+#     window.show()
+#     sys.exit(app.exec_())
+
+
