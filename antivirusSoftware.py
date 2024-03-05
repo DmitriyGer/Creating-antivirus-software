@@ -1,9 +1,9 @@
-import sys
-import os
+import sys, os, hashlib
+
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
+from PyQt5.QtGui import QColor
 
 from helpers import database
-from app import monitorFiles
 
 """ Страница сканирования"""
 class ScanPage(QWidget):
@@ -22,7 +22,6 @@ class ScanPage(QWidget):
 
         self.setLayout(self.layout)
         
-
     """ Функция выбора файла """
     def select_file(self):
         options = QFileDialog.Options()
@@ -31,7 +30,6 @@ class ScanPage(QWidget):
         if file:   
             self.show_testing_page(file)         
             
-
     """ Функция вызова стр. тест """
     def show_testing_page(self, file):
         
@@ -57,7 +55,6 @@ class ScanPage(QWidget):
                 self.label.setText(f"В файле {name_file} обнаружена угроза")
                 self.del_malwer(file)
 
-
     """ Функция удаления файла """
     def del_malwer(self, file):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы действительно хотите удалить файл?', QMessageBox.Yes | QMessageBox.No)
@@ -65,14 +62,12 @@ class ScanPage(QWidget):
             os.remove(file)
             self.confirmation_del_malwer()
 
-
     """ Функция подтверждения удаления файла """
     def confirmation_del_malwer(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
             self.label.clear()
             self.label.setText("Страница сканирования")
-
 
     """ Функция возвращения на главный экран (угроз не обноружено) """
     def return_to_main(self):
@@ -98,16 +93,43 @@ class ScanRealTime(QWidget):
         self.setLayout(self.layout)
     
     """ Функция для мониторинга добавления новых файлов """
-    def monitor_files(self):
+    def monitor_files(self, file):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             print("Отработка команды")
             os.system('time /t')
-            # folder_paths = []
-            # with open('helpers\database_local.txt', 'r') as file:
-            #     for line in file:
-            #         folder_paths.append(line.strip())
-            # self.dm = monitorFiles.TestWin(folder_paths)
+            
+
+            """ Функция проверки файла через хеширование """
+            # Создаем базу данных с хешами безопасных файлов
+            safe_files = {
+                "file1": "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a",
+                "file2.exe": "z9y8x7w6v5u4t3s2r1",
+                # Добавьте сюда остальные файлы
+            }
+
+            # Функция сканирования
+            def check_file(file_name):
+                # Читаем содержимое файла
+                with open(file_name, "rb") as file:
+                    content = file.read()
+
+                # Хешируем содержимое файла
+                hash_obj = hashlib.sha256()
+                hash_obj.update(content)
+                file_hash = hash_obj.hexdigest()
+
+                # Проверяем, есть ли хеш в базе безопасных файлов
+                if file_hash in safe_files.values():
+                    print(f"В файле {file_name} угроз не обнаружено")
+                else:
+                    print(f"В файле {file_name} обнаружена угроза")
+            
+            check_file("virus2") # Вызов функции для сканирования через хеширование
+            
+            
+    
+
         
         
         
@@ -160,6 +182,14 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle('BaohuMe')
         self.resize(800, 500)
+
+
+        """ Изменение цвета программы """
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QColor(255, 255, 255))  # Изменение цвета страницы
+        self.setPalette(p)
+
 
         self.menu_layout = QVBoxLayout()
         self.page_widget = QStackedWidget()
