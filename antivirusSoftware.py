@@ -2,6 +2,7 @@ import sys, os, hashlib
 
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 from PyQt5.QtGui import QColor
+from PyQt5.QtCore import QTimer
 
 from helpers import database
 
@@ -92,47 +93,66 @@ class ScanRealTime(QWidget):
 
         self.setLayout(self.layout)
     
-    """ Функция для мониторинга добавления новых файлов """
-    def monitor_files(self, file):
+    """ Функция для мониторинга добавления новых файлов и обнаружения вируса при помощи хеш проверки """
+    def monitor_files(self, folder_path):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             print("Отработка команды")
             os.system('time /t')
             
+            self.last_added_file = ''
+            self.timer = QTimer()
+            self.timer.timeout.connect(self.check_for_new_file)
+            self.timer.start(2000)  # Проверять наличие нового файла каждую секунду
 
-            """ Функция проверки файла через хеширование """
-            # Создаем базу данных с хешами безопасных файлов
-            safe_files = {
-                "file1": "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a",
-                "file2.exe": "z9y8x7w6v5u4t3s2r1",
-                # Добавьте сюда остальные файлы
-            }
+    """ Функция для обнаружения новых файлов в папке и проверки на наличие угроз при помощи хеширования """       
+    def check_for_new_file(self):
 
-            # Функция сканирования
-            def check_file(file_name):
-                # Читаем содержимое файла
-                with open(file_name, "rb") as file:
-                    content = file.read()
-
-                # Хешируем содержимое файла
-                hash_obj = hashlib.sha256()
-                hash_obj.update(content)
-                file_hash = hash_obj.hexdigest()
-
-                # Проверяем, есть ли хеш в базе безопасных файлов
-                if file_hash in safe_files.values():
-                    print(f"В файле {file_name} угроз не обнаружено")
-                else:
-                    print(f"В файле {file_name} обнаружена угроза")
-            
-            check_file("virus2") # Вызов функции для сканирования через хеширование
-            
-            
-    
-
+        # Создаем базу данных с хешами безопасных файлов
+        safe_files = {
+            "file1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "file2.exe": "z9y8x7w6v5u4t3s2r1",
+            # Добавьте сюда остальные файлы
+        }
         
+        # Путь к папаке для отслеживания новых файлов
+        username = os.getlogin()
+        folder_path = f"C:\\Users\\{username}\\Desktop\\TestFolder"
         
+
+        # Последний добавленный файл
+        last_added_file = ''
+
+        # Прогонка по папке
+        files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]    # Прогонка
+        files.sort(key=lambda x: os.path.getctime(os.path.join(folder_path, x)), reverse=True)          # Сортировка
+
+        # Прогонка по папкам
+        # for i in 
+
+        # Выбираем из всех файлов последний
+        if files:
+            latest_file = files[0]
+            if latest_file != last_added_file:
+                last_added_file = latest_file
         
+        # Простматриваем файл с проводника
+        with open(folder_path + "\\" + last_added_file, "rb") as file:
+            content = file.read()
+
+        # Хешируем содержимое файла
+        hash_obj = hashlib.sha256()
+        hash_obj.update(content)
+        file_hash = hash_obj.hexdigest()
+
+        # Проверяем, есть ли хеш в базе безопасных файлов
+        if file_hash in safe_files.values():
+            print(f"В файле {last_added_file} обнаружена угроза")
+        else:
+            print(f"В файле {last_added_file} угроз не обнаружено")
+
+            
+
         # if confirm == QMessageBox.Yes:
         # print('Start_real_time_scan')
         # # Считывание путей к папкам из файла Folder.txt
