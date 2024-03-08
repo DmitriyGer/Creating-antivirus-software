@@ -22,7 +22,7 @@
 #         self.resize(800, 600)
 #         layout1.addWidget(label1)
 #         self.page1.setLayout(layout1)
-        
+
 
 #         # Настройка содержимого второй страницы
 #         layout2 = QVBoxLayout()
@@ -58,7 +58,6 @@
 #     widget = TwoPageWidget()
 #     widget.show()
 #     sys.exit(app.exec_())
-
 
 
 # Вариант: 2
@@ -150,7 +149,6 @@
 #     sys.exit(app.exec_())
 
 
-
 # Вариант: 3
 
 # import sys
@@ -206,8 +204,7 @@
 #     sys.exit(app.exec_())
 
 
-
-# Вариант: 4 
+# Вариант: 4
 
 # import sys
 # from PyQt5.QtCore import Qt
@@ -253,7 +250,7 @@
 # class Page1(QWidget):
 #     def __init__(self):
 #         super().__init__()
-        
+
 
 #         self.layout = QVBoxLayout()
 
@@ -320,7 +317,6 @@
 #     window = MainWindow()
 #     window.show()
 #     sys.exit(app.exec_())
-
 
 
 # Вариант: 5 Основной
@@ -396,7 +392,6 @@
 #     sys.exit(app.exec_())
 
 
-
 # Вариант: 6
 
 # import sys
@@ -406,7 +401,7 @@
 # class ScanPage(QWidget):
 #     def __init__(self, parent=None):
 #         super().__init__(parent)
-        
+
 #         self.layout = QVBoxLayout()
 #         self.label = QLabel("Страница сканирования")
 #         self.layout.addWidget(self.label)
@@ -483,7 +478,6 @@
 #     window = MainWindow()
 #     window.show()
 #     sys.exit(app.exec_())
-
 
 
 # Вариант: 7 Взять текстовые блоки
@@ -640,8 +634,6 @@
 #     time.sleep(5)  # Проверка каждые 5 секунд
 
 
-
-
 # import os, time
 
 # def track_folders():
@@ -675,9 +667,7 @@
 # track_folders()
 
 
-
-
-# """ Прога для обнаружения нового файла """
+""" Прога для обнаружения нового файла """
 # import sys
 # import os
 # from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
@@ -691,14 +681,14 @@
 #     def initUI(self):
 #         self.setWindowTitle('Real-Time Virus Scanner')
 #         self.setGeometry(100, 100, 300, 100)
-        
+
 #         self.label = QLabel(self)
 #         self.label.setGeometry(10, 10, 300, 30)
 #         self.label.setText('Watching for new files...')
 
 #         self.watcher = QFileSystemWatcher()
 #         self.watcher.directoryChanged.connect(self.directory_changed)
-        
+
 
 #         # Путь к папке для сканирования
 #         folder_to_scan = "C:\\Users\\dim1a\\Desktop\\TestFolder"
@@ -727,7 +717,7 @@
 # class RealTimeFolderMonitor(QWidget):
 #     def __init__(self, folder_path):
 #         super().__init__()
-        
+
 #         self.setWindowTitle('Real-Time Folder Monitor')
 #         self.setGeometry(100, 100, 400, 300)
 
@@ -775,20 +765,20 @@
 #         self.layout = QVBoxLayout()
 #         self.setLayout(self.layout)
 
-#         self.folder_path = folder_path
-#         self.last_added_file_label = QLabel('Последний добавленный файл: ')
-#         self.layout.addWidget(self.last_added_file_label)
+# self.folder_path = folder_path
+# self.last_added_file_label = QLabel('Последний добавленный файл: ')
+# self.layout.addWidget(self.last_added_file_label)
 
-#         self.last_added_file = ''
-#         self.timer = QTimer()
-#         self.timer.timeout.connect(self.check_for_new_file)
-#         self.timer.start(1000)  # Проверять наличие нового файла каждую секунду
+# self.last_added_file = ''
+# self.timer = QTimer()
+# self.timer.timeout.connect(self.check_for_new_file)
+# self.timer.start(1000)  # Проверять наличие нового файла каждую секунду
 
 #     def check_for_new_file(self):
 #         files = [f for f in os.listdir(self.folder_path) if os.path.isfile(os.path.join(self.folder_path, f))]
 #         files.sort(key=lambda x: os.path.getctime(os.path.join(self.folder_path, x)), reverse=True)
 #         print(files)
-        
+
 #         if files:
 #             latest_file = files[0]
 #             if latest_file != self.last_added_file:
@@ -801,7 +791,6 @@
 #     folder_analyzer = RealTimeFolderAnalyzer(folder_to_analyze)
 #     folder_analyzer.show()
 #     sys.exit(app.exec_())
-
 
 
 # import os
@@ -871,36 +860,35 @@
 # Scan()
 
 
-
 """ Проверка файла черех хеширование НУЖНО """
-import hashlib
+# import hashlib
 
-# Создаем базу данных с хешами безопасных файлов
-safe_files = {
-    "file1.exe": "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a",
-    "file2.exe": "z9y8x7w6v5u4t3s2r1",
-    # Добавьте сюда остальные файлы
-}
+# # Создаем базу данных с хешами безопасных файлов
+# safe_files = {
+#     "file1.exe": "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a",
+#     "file2.exe": "z9y8x7w6v5u4t3s2r1",
+#     # Добавьте сюда остальные файлы
+# }
 
-def check_file(file_name):
-    # Читаем содержимое файла
-    with open(file_name, "rb") as file:
-        content = file.read()
+# def check_file(file_name):
+#     # Читаем содержимое файла
+#     with open(file_name, "rb") as file:
+#         content = file.read()
 
-    # Хешируем содержимое файла
-    hash_obj = hashlib.sha256()
-    hash_obj.update(content)
-    file_hash = hash_obj.hexdigest()
+#     # Хешируем содержимое файла
+#     hash_obj = hashlib.sha256()
+#     hash_obj.update(content)
+#     file_hash = hash_obj.hexdigest()
 
-    # Проверяем, есть ли хеш в базе безопасных файлов
-    if file_hash in safe_files.values():
-        print(f"The file {file_name} is safe.")
-    else:
-        print(f"The file {file_name} may be a threat.")
+#     # Проверяем, есть ли хеш в базе безопасных файлов
+#     if file_hash in safe_files.values():
+#         print(f"The file {file_name} is safe.")
+#     else:
+#         print(f"The file {file_name} may be a threat.")
 
-# Пример использования
-check_file("virus2")
-# check_file("file3.exe")  # Предположительно вредоносный файл
+# # Пример использования
+# check_file("virus2")
+# # check_file("file3.exe")  # Предположительно вредоносный файл
 
 
 """ Перевод файла в хеш код НУЖНО """
@@ -948,8 +936,6 @@ check_file("virus2")
 # print(f"SHA-256 Hash: {hash_code}")
 
 
-
-
 # import sys
 # import os
 # import hashlib
@@ -966,7 +952,7 @@ check_file("virus2")
 
 #         self.btn_select_folder = QPushButton('Select Folder', self)
 #         self.btn_select_folder.clicked.connect(self.selectFolder)
-        
+
 #         self.lbl_result = QLabel('', self)
 
 #         layout = QVBoxLayout()
@@ -1010,3 +996,125 @@ check_file("virus2")
 #     sys.exit(app.exec_())
 
 
+""" Поиск файла по определенным папкам """
+# import os
+
+# def search_file(file_name, directories):
+#     results = []
+#     for directory in directories:
+#         for root, dirs, files in os.walk(directory):
+#             if file_name in files:
+#                 results.append(os.path.join(root, file_name))
+#     return results
+
+
+# # Укажите имя файла, который хотите найти
+# file_to_find = "virus2"
+
+# username = os.getlogin()
+# # Укажите список папок, в которых нужно выполнить поиск
+# directories_to_search = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", 
+#                        f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+
+# found_files = search_file(file_to_find, directories_to_search)
+
+# if found_files:
+#     print(f"Найден файл '{file_to_find}' в следующих папках:")
+#     for file_path in found_files:
+#         print(file_path)
+# else:
+#     print(f"Файл '{file_to_find}' не найден в указанных папках.")
+
+
+
+# import os
+# username = os.getlogin()
+# directories_to_search = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+
+# for i in range(len(directories_to_search)):
+#     print(directories_to_search[i])
+
+
+
+
+
+# import os
+# import hashlib
+
+# def find_file_by_hash(target_hash, folders):
+#     for folder in folders:
+#         for root, _, files in os.walk(folder):
+#             for file in files:
+#                 file_path = os.path.join(root, file)
+#                 with open(file_path, "rb") as f:
+#                     file_hash = hashlib.sha256(f.read()).hexdigest()
+#                     if file_hash == target_hash:
+#                         print(f"Файл с хешем {target_hash} найден в папке: {root}")
+#                         return
+    
+#     print("Файл не найден")
+
+# # Пример использования функции
+# username = os.getlogin()
+# target_hash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+# folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+# find_file_by_hash(target_hash, folders)
+
+
+
+# import os
+# import hashlib
+
+# def find_files_by_hashes(target_hashes, folders):
+#     for target_hash in target_hashes:
+#         for folder in folders:
+#             for root, _, files in os.walk(folder):
+#                 for file_name in files:
+#                     file_path = os.path.join(root, file_name)
+#                     with open(file_path, "rb") as f:
+#                         file_hash = hashlib.sha256(f.read()).hexdigest()
+#                         if file_hash == target_hash:
+#                             print(f"Файл с хешем {target_hash} найден в папке: {root}")
+#                             break
+#                 else:
+#                     continue
+#                 break
+#             else:
+#                 continue
+#             break
+#         else:
+#             print(f"Файл с хешем {target_hash} не найден в указанных папках.")
+    
+# # Пример использования функции
+# username = os.getlogin()
+# target_hashes = ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "z9y8x7w6v5u4t3s2r1", "HASH_3"]
+# folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+# find_files_by_hashes(target_hashes, folders)
+
+
+
+
+
+
+
+""" !!!Рабочий код поиска по хешам!!! """
+# import os
+# import hashlib
+
+# def find_files_by_hashes(target_hashes, folders):
+#     for target_hash in target_hashes:
+#         for folder in folders:
+#             for root, _, files in os.walk(folder):
+#                 for file_name in files:
+#                     file_path = os.path.join(root, file_name)
+#                     with open(file_path, "rb") as f:
+#                         file_hash = hashlib.sha256(f.read()).hexdigest()
+#                         if file_hash == target_hash:
+#                             print(f"Файл с хешем {target_hash} найден в папке: {root}")
+#                             break
+#             break
+# # Пример использования функции
+# username = os.getlogin()
+# target_hashes = ["16355db04c8444072383393139fff3f6e6c467e475710a29d5182daebede711c", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"]
+# folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+# find_files_by_hashes(target_hashes, folders)
