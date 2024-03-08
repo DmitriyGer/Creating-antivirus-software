@@ -1,4 +1,3 @@
-""" Перевод файла в хеш код НУЖНО """
 import hashlib
 
 def calculate_file_hash(file_path):
@@ -17,7 +16,7 @@ def check_file_integrity(file_path, expected_hash):
         print(f"Expected hash: {expected_hash}")
         print(f"Actual hash: {file_hash}")
 
-file_path = "file1.exe"
+file_path = "main.py"
 expected_hash = "your_expected_hash"
 
 check_file_integrity(file_path, expected_hash)
