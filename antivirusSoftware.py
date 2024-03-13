@@ -1,4 +1,4 @@
-import sys, os, hashlib, ctypes
+import sys, os, hashlib
 
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 from PyQt5.QtGui import QColor
@@ -26,7 +26,6 @@ class ScanPage(QWidget):
     """ Функция выбора файла """
     def select_file(self):
         options = QFileDialog.Options()
-        # options |= QFileDialog.ReadOnly
         file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "", "Все файлы (*)", options=options)
         if file:   
             self.show_testing_page(file)         
@@ -36,8 +35,6 @@ class ScanPage(QWidget):
         
         data = database.git_info_files(file)
         name_file = file.split("/")[-1]
-
-        # self.label.setText(f"Выбранный файл: {name_file}")
         
         """ Перебор по БД, обнаружение кол-во срабатываний """
         return_scan = 0
@@ -93,19 +90,19 @@ class ScanRealTime(QWidget):
 
         self.setLayout(self.layout)
     
-    """ Функция для мониторинга добавления новых файлов и обнаружения вируса при помощи хеш проверки """
+    """ Функция запуска алгоритма сканирования """
     def monitor_files(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             os.system('time /t')
             username = os.getlogin()
-            target_hashes = ["651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "16355db04c8444072383393139fff3f6e6c467e475710a29d5182daebede711c"]
-            folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
+            target_hashes = ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a"]
+            folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents", f"C:\\Users\\{username}\\OneDrive\\Рабочий стол", f"C:\\Users\\{username}\\OneDrive\\Документы"]
 
             """ Лямбда функция служащая для запуска основного кода с определенным интерваалом"""
             self.timer = QTimer()
             self.timer.timeout.connect(lambda: self.check_and_delete_files(target_hashes, folders))  # Лямбда-функция для вызова check_and_delete_files
-            self.timer.start(4000)  # Запуск таймера с интервалом в 4 секунд
+            self.timer.start(4000)  # Запуск таймера с интервалом в 4 секунды
 
     """ Функция для проверки наличия и удаления файлов с угрозами """
     def check_and_delete_files(self, target_hashes, folders):
@@ -133,18 +130,18 @@ class ScanRealTime(QWidget):
                 break
         return found_files
 
-    """ Функция удаления файла """ # Дорабоать!!!
+    """ Функция удаления файла """
     def del_malwer_real_scan(self, file_path):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Обнаружена угроза {file_path}, обезвредить угрозу?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             os.remove(file_path)
             print(f"Файл {file_path} успешно удален")
-            self.confirmation_del_malwer()
+            self.confirmation_del_malwer(file_path)
             return True
 
     """ Функция подтверждения удаления файла """
-    def confirmation_del_malwer(self):
-        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
+    def confirmation_del_malwer(self, file_path):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Файл по пути {file_path} успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
             self.label.clear()
             self.label.setText("Страница сканирования в реальном времени")
