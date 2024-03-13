@@ -1,4 +1,4 @@
-import sys, os, hashlib
+import sys, os, hashlib, ctypes
 
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 from PyQt5.QtGui import QColor
@@ -94,38 +94,60 @@ class ScanRealTime(QWidget):
         self.setLayout(self.layout)
     
     """ Функция для мониторинга добавления новых файлов и обнаружения вируса при помощи хеш проверки """
-    def monitor_files(self, folder_path):
+    def monitor_files(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
-            print("Отработка команды")
             os.system('time /t')
-            
-            self.last_added_file = ''
-            self.timer = QTimer()
-            self.timer.timeout.connect(self.check_for_new_file)
-            self.timer.start(2000)  # Проверять наличие нового файла каждую секунду
+            username = os.getlogin()
+            target_hashes = ["651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "16355db04c8444072383393139fff3f6e6c467e475710a29d5182daebede711c"]
+            folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
 
-    """ Функция для обнаружения новых файлов в папке и проверки на наличие угроз при помощи хеширования """       
-    def check_for_new_file(self):
-        
-        def find_files_by_hashes(target_hashes, folders):
-            for target_hash in target_hashes:
-                for folder in folders:
-                    for root, _, files in os.walk(folder):
-                        for file_name in files:
-                            file_path = os.path.join(root, file_name)
-                            with open(file_path, "rb") as f:
-                                file_hash = hashlib.sha256(f.read()).hexdigest()
-                                if file_hash == target_hash:
-                                    print(f"В папке {root} обнаружена угроза: {file_name}")
-                                    # print(f"Обнаружена угроза в файле {file_name} с хешем {target_hash} найден в папке: {root}")
-                                    break
-                    break
-        # Пример использования функции
-        username = os.getlogin()
-        target_hashes = ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "16355db04c8444072383393139fff3f6e6c467e475710a29d5182daebede711c"]
-        folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents"]
-        find_files_by_hashes(target_hashes, folders)
+            """ Лямбда функция служащая для запуска основного кода с определенным интерваалом"""
+            self.timer = QTimer()
+            self.timer.timeout.connect(lambda: self.check_and_delete_files(target_hashes, folders))  # Лямбда-функция для вызова check_and_delete_files
+            self.timer.start(4000)  # Запуск таймера с интервалом в 4 секунд
+
+    """ Функция для проверки наличия и удаления файлов с угрозами """
+    def check_and_delete_files(self, target_hashes, folders):
+        files_to_delete = self.check_for_new_file(target_hashes, folders)
+        for file_data in files_to_delete:
+            file_path = file_data["file_path"]
+            folder = file_data["folder"]
+            if self.del_malwer_real_scan(file_path):
+                print(f"File with hash code {file_data['hash_code']} has been deleted. Found in folder: {folder}")
+
+    """ Функция для обнаружения новых файлов в папке и проверки на наличие угроз при помощи хеширования """  
+    def check_for_new_file(self, target_hashes, folders):
+        found_files = []
+        for target_hash in target_hashes:
+            for folder in folders:
+                for root, _, files in os.walk(folder):
+                    for file_name in files:
+                        file_path = os.path.join(root, file_name)
+                        with open(file_path, "rb") as f:
+                            file_hash = hashlib.sha256(f.read()).hexdigest()
+                            if file_hash == target_hash:
+                                print(f"В папке {root} обнаружена угроза: {file_name}")
+                                found_files.append({"hash_code": file_hash, "file_path": file_path, "folder": folder})
+                                break
+                break
+        return found_files
+
+    """ Функция удаления файла """ # Дорабоать!!!
+    def del_malwer_real_scan(self, file_path):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Обнаружена угроза {file_path}, обезвредить угрозу?', QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.Yes:
+            os.remove(file_path)
+            print(f"Файл {file_path} успешно удален")
+            self.confirmation_del_malwer()
+            return True
+
+    """ Функция подтверждения удаления файла """
+    def confirmation_del_malwer(self):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
+        if confirm == QMessageBox.Close:
+            self.label.clear()
+            self.label.setText("Страница сканирования в реальном времени")
         
 
 """ Страница о разработчиках """
