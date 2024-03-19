@@ -1,9 +1,11 @@
 import sys, os, hashlib
 
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
+from PyQt5.QtGui import QColor
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QFont
 
 from helpers import database
-from app import monitorFiles
 
 """ Страница сканирования"""
 class ScanPage(QWidget):
@@ -26,23 +28,18 @@ class ScanPage(QWidget):
 
         self.setLayout(self.layout)
         
-
     """ Функция выбора файла """
     def select_file(self):
         options = QFileDialog.Options()
-        # options |= QFileDialog.ReadOnly
         file, _ = QFileDialog.getOpenFileName(self, "Выберите файл для сканирования", "", "Все файлы (*)", options=options)
         if file:   
             self.show_testing_page(file)         
             
-
     """ Функция вызова стр. тест """
     def show_testing_page(self, file):
         
         data = database.git_info_files(file)
         name_file = file.split("/")[-1]
-
-        # self.label.setText(f"Выбранный файл: {name_file}")
         
         """ Перебор по БД, обнаружение кол-во срабатываний """
         return_scan = 0
@@ -61,7 +58,6 @@ class ScanPage(QWidget):
                 self.label.setText(f"В файле {name_file} обнаружена угроза")
                 self.del_malwer(file)
 
-
     """ Функция удаления файла """
     def del_malwer(self, file):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Вы действительно хотите удалить файл?', QMessageBox.Yes | QMessageBox.No)
@@ -69,14 +65,12 @@ class ScanPage(QWidget):
             os.remove(file)
             self.confirmation_del_malwer()
 
-
     """ Функция подтверждения удаления файла """
     def confirmation_del_malwer(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
             self.label.clear()
-            self.label.setText("Страница сканирования") 
-
+            self.label.setText("Страница сканирования")
 
     """ Функция возвращения на главный экран (угроз не обноружено) """
     def return_to_main(self):
@@ -105,50 +99,62 @@ class ScanRealTime(QWidget):
 
         self.setLayout(self.layout)
     
-    """ Функция для мониторинга добавления новых файлов """
+    """ Функция запуска алгоритма сканирования """
     def monitor_files(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
-            print("Отработка команды")
             os.system('time /t')
-            # folder_paths = []
-            # with open('helpers\database_local.txt', 'r') as file:
-            #     for line in file:
-            #         folder_paths.append(line.strip())
-            # self.dm = monitorFiles.TestWin(folder_paths)
+            username = os.getlogin()
+            target_hashes = ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a"]
+            folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents", f"C:\\Users\\{username}\\OneDrive\\Рабочий стол", f"C:\\Users\\{username}\\OneDrive\\Документы"]
+
+            """ Лямбда функция служащая для запуска основного кода с определенным интерваалом"""
+            self.timer = QTimer()
+            self.timer.timeout.connect(lambda: self.check_and_delete_files(target_hashes, folders))  # Лямбда-функция для вызова check_and_delete_files
+            self.timer.start(4000)  # Запуск таймера с интервалом в 4 секунды
+
+    """ Функция для проверки наличия и удаления файлов с угрозами """
+    def check_and_delete_files(self, target_hashes, folders):
+        files_to_delete = self.check_for_new_file(target_hashes, folders)
+        for file_data in files_to_delete:
+            file_path = file_data["file_path"]
+            folder = file_data["folder"]
+            if self.del_malwer_real_scan(file_path):
+                print(f"File with hash code {file_data['hash_code']} has been deleted. Found in folder: {folder}")
+
+    """ Функция для обнаружения новых файлов в папке и проверки на наличие угроз при помощи хеширования """  
+    def check_for_new_file(self, target_hashes, folders):
+        found_files = []
+        for target_hash in target_hashes:
+            for folder in folders:
+                for root, _, files in os.walk(folder):
+                    for file_name in files:
+                        file_path = os.path.join(root, file_name)
+                        with open(file_path, "rb") as f:
+                            file_hash = hashlib.sha256(f.read()).hexdigest()
+                            if file_hash == target_hash:
+                                print(f"В папке {root} обнаружена угроза: {file_name}")
+                                found_files.append({"hash_code": file_hash, "file_path": file_path, "folder": folder})
+                                break
+                break
+        return found_files
+
+    """ Функция удаления файла """
+    def del_malwer_real_scan(self, file_path):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Обнаружена угроза {file_path}, обезвредить угрозу?', QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.Yes:
+            os.remove(file_path)
+            print(f"Файл {file_path} успешно удален")
+            self.confirmation_del_malwer(file_path)
+            return True
+
+    """ Функция подтверждения удаления файла """
+    def confirmation_del_malwer(self, file_path):
+        confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Файл по пути {file_path} успешно удален', QMessageBox.Close)
+        if confirm == QMessageBox.Close:
+            self.label.clear()
+            self.label.setText("Страница сканирования в реальном времени")
         
-        
-        
-        # if confirm == QMessageBox.Yes:
-        # print('Start_real_time_scan')
-        # # Считывание путей к папкам из файла Folder.txt
-        # folder_paths = []
-        # with open('helpers\database_local.txt', 'r') as file:
-        #     for line in file:
-        #         folder_paths.append(line.strip())
-
-        # # Словарь для хранения списка файлов в каждой папке на старте
-        # initial_files = {folder_path: os.listdir(folder_path) for folder_path in folder_paths}
-
-        # # Основной цикл программы
-        # 
-        # while True:
-        #     for folder_path in folder_paths:
-        #         current_files = os.listdir(folder_path)
-
-        #         # Поиск новых файлов
-        #         new_files = [file for file in current_files if file not in initial_files[folder_path]]
-
-        #         # Вывод сообщения при обнаружении нового файла
-        #         for new_file in new_files:
-        #             print(f"Новый файл обнаружен в папке {folder_path}: {new_file}")
-
-        #         initial_files[folder_path] = current_files
-
-        #     # time.sleep(5)  # Проверка каждые 5 секунд
-            
-
-
 
 """ Страница о разработчиках """
 class DevelopersPage(QWidget):
@@ -167,7 +173,6 @@ Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH
 «Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,\n\
 искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».\n\
 \t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич")
-        
         font = QFont("Arial", 11)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(228, 208, 186);")
@@ -246,7 +251,7 @@ class MainWindow(QWidget):
         if confirm == QMessageBox.Yes:
             self.close()
 
- 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
