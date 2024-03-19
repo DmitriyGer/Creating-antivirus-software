@@ -1,4 +1,4 @@
-import sys, os, hashlib, webbrowser
+import sys, os, hashlib
 
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 from PyQt5.QtGui import QColor
@@ -15,12 +15,15 @@ class ScanPage(QWidget):
         """Текст в блоке 'Страница' """
         self.layout = QVBoxLayout()
         self.label = QLabel("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса")
+        font = QFont("Arial", 11)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color: rgb(228, 208, 186);")
         self.layout.addWidget(self.label)
        
         """ Кнопка 'Выбора файла' """
         self.file_button = QPushButton("Выбрать файл")
         self.file_button.clicked.connect(self.select_file)
-        # self.file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        self.file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.layout.addWidget(self.file_button)
 
         self.setLayout(self.layout)
@@ -83,12 +86,15 @@ class ScanRealTime(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования в реальном времени\n\nСтраница сканирования в реальном времени позволяет отслеживать\nфайловый менеджер windows при помощи хэш сканирования, то есть\nобнарeживать угрозу")
+        self.label = QLabel("Страница сканирования в реальном времени\n\nСтраница сканирования в реальном времени позволяет отслеживать\nфайловый менеджер windows при помощи хэш сканирования, то есть\nобнаруживать угрозу")
+        font = QFont("Arial", 11)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color: rgb(228, 208, 186);")
         self.layout.addWidget(self.label)
 
         self.real_time_file_button = QPushButton("Запустить мониторинг файловой системы")
         self.real_time_file_button.clicked.connect(self.monitor_files)
-        # self.real_time_file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        self.real_time_file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.layout.addWidget(self.real_time_file_button)
 
         self.setLayout(self.layout)
@@ -156,16 +162,21 @@ class DevelopersPage(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Сведения о разработчиках\n\n\
+
+        self.label = QLabel(f"Сведения о разработчиках\n\n\
 Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail\n\n\
-Major Developer\t\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru\n\
+Major Developer\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru\n\
 Major analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru\n\
 Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru\n\n\
 Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать\n\
-сложные вызовы и находить инновационные решения.\n\n\
+сложные вызовы и находить инновационные решения.\n\n\n\n\n\n\n\n\n\
 «Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,\n\
 искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».\n\
-\t\t\t\t\t\t\t\t\t\tНик Вуйчич")
+\t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич")
+        
+        font = QFont("Arial", 11)
+        self.label.setFont(font)
+        self.label.setStyleSheet("color: rgb(228, 208, 186);")
         self.layout.addWidget(self.label)
 
         self.setLayout(self.layout)
@@ -176,39 +187,44 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('BaohuMe')
-        self.resize(800, 500)
+        self.resize(1300, 550)
 
 
         """ Изменение цвета программы """
         self.setAutoFillBackground(True)
-        # p = self.palette()
-        # p.setColor(self.backgroundRole(), QColor(19, 51, 50))  # Изменение цвета страницы
-        # self.setPalette(p)
-
-        # font = QFont("Arial", 12)
-        # self.setFont(font)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QColor(19, 51, 50))  # Изменение цвета страницы
+        self.setPalette(p)
 
         self.menu_layout = QVBoxLayout()
         self.page_widget = QStackedWidget()
 
         self.scan_button = QPushButton("Сканирование")
         self.scan_button.clicked.connect(lambda: self.load_page(0))
-        # self.scan_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        font = QFont("Arial", 11)
+        self.scan_button.setFont(font)
+        self.scan_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.scan_button)
 
         self.scan_real_time = QPushButton("Сканирование в раельном времени")
         self.scan_real_time.clicked.connect(lambda: self.load_page(1))
-        # self.scan_real_time.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        font = QFont("Arial", 11)
+        self.scan_real_time.setFont(font)
+        self.scan_real_time.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.scan_real_time)
 
         self.developers_button = QPushButton("О разработчиках")
         self.developers_button.clicked.connect(lambda: self.load_page(2))
-        # self.developers_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        font = QFont("Arial", 11)
+        self.developers_button.setFont(font)
+        self.developers_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.developers_button)
 
         self.close_button = QPushButton("Закрыть")
         self.close_button.clicked.connect(self.close_app)
-        # self.close_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
+        font = QFont("Arial", 11)
+        self.close_button.setFont(font)
+        self.close_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.close_button)
 
         self.scan_page = ScanPage()
