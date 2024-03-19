@@ -172,24 +172,24 @@ class DevelopersPage(QWidget):
         # Создание QLabel для отображения изображения
         self.image_label = QLabel()
         pixmap = QPixmap('images\\2.png') # обновите этот путь на путь к вашему изображению
-        self.image_label.setPixmap(pixmap.scaled(300, 150)) # выбираем необходимый размер картинки
+        self.image_label.setPixmap(pixmap.scaled(400, 150)) # выбираем необходимый размер картинки
 
         # формирование окончательного текста
         developers_text = f"""
         Сведения о разработчиках
 
-        Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail
+        Должность\tИмя\t\t\tGitHub\t\t\t\te-mail
 
-        Major Developer\t\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru
-        Major Analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru
-        Major Designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru
+        Major Developer\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru
+        Major Designer\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru
+        Major Analyst\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru
 
         Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать
         сложные вызовы и находить инновационные решения.
 
         «Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,
         искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».
-        \t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич
+        \t\t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич
         """
         self.label.setText(developers_text)
         self.layout.addWidget(self.label)
