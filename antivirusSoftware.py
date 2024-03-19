@@ -12,7 +12,7 @@ class ScanPage(QWidget):
 
         """Текст в блоке 'Страница' """
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования\n")
+        self.label = QLabel("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса")
         self.layout.addWidget(self.label)
        
         """ Кнопка 'Выбора файла' """
@@ -88,7 +88,7 @@ class ScanRealTime(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования в реальном времени")
+        self.label = QLabel("Страница сканирования в реальном времени\n\nСтраница сканирования в реальном времени позволяет отслеживать\nфайловый менеджер windows при помощи хэш сканирования, то есть\nобнарeживать угрозу")
         self.layout.addWidget(self.label)
 
         self.real_time_file_button = QPushButton("Запустить мониторинг файловой системы")
