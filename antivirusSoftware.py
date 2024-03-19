@@ -70,14 +70,14 @@ class ScanPage(QWidget):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Файл успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
             self.label.clear()
-            self.label.setText("Страница сканирования")
+            self.label.setText("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса\n\nНеобходимо наличие подключения к интернету")
 
     """ Функция возвращения на главный экран (угроз не обноружено) """
     def return_to_main(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Угроз не обнаружено, вернуться на главный экран?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             self.label.clear()
-            self.label.setText("Страница сканирования")
+            self.label.setText("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса\n\nНеобходимо наличие подключения к интернету")
     
 
 """ Страница сканирования в реальном времени """
@@ -103,9 +103,9 @@ class ScanRealTime(QWidget):
     def monitor_files(self):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', 'Запустить сканирование в реальном времени?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
-            os.system('time /t')
+            # os.system('time /t')
             username = os.getlogin()
-            target_hashes = ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a"]
+            target_hashes = ["651b9095f45d292c99a5883a448488868fa2e78103fa72e31976127605bf92e0", "c3812211b7b4ab8fc631509980c091b833091ebf6f5f461aaf0a23cc4345733a"]
             folders = [f"C:\\Users\\{username}\\Desktop\\TestFolder", f"C:\\Users\\{username}\\Downloads", f"C:\\Users\\{username}\\Desktop", f"C:\\Users\\{username}\\Documents", f"C:\\Users\\{username}\\OneDrive\\Рабочий стол", f"C:\\Users\\{username}\\OneDrive\\Документы"]
 
             """ Лямбда функция служащая для запуска основного кода с определенным интерваалом"""
@@ -119,8 +119,8 @@ class ScanRealTime(QWidget):
         for file_data in files_to_delete:
             file_path = file_data["file_path"]
             folder = file_data["folder"]
-            if self.del_malwer_real_scan(file_path):
-                print(f"File with hash code {file_data['hash_code']} has been deleted. Found in folder: {folder}")
+            self.del_malwer_real_scan(file_path)
+                # print(f"File with hash code {file_data['hash_code']} has been deleted. Found in folder: {folder}")
 
     """ Функция для обнаружения новых файлов в папке и проверки на наличие угроз при помощи хеширования """  
     def check_for_new_file(self, target_hashes, folders):
@@ -133,7 +133,7 @@ class ScanRealTime(QWidget):
                         with open(file_path, "rb") as f:
                             file_hash = hashlib.sha256(f.read()).hexdigest()
                             if file_hash == target_hash:
-                                print(f"В папке {root} обнаружена угроза: {file_name}")
+                                # print(f"В папке {root} обнаружена угроза: {file_name}")
                                 found_files.append({"hash_code": file_hash, "file_path": file_path, "folder": folder})
                                 break
                 break
@@ -144,7 +144,7 @@ class ScanRealTime(QWidget):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Обнаружена угроза {file_path}, обезвредить угрозу?', QMessageBox.Yes | QMessageBox.No)
         if confirm == QMessageBox.Yes:
             os.remove(file_path)
-            print(f"Файл {file_path} успешно удален")
+            # print(f"Файл {file_path} успешно удален")
             self.confirmation_del_malwer(file_path)
             return True
 
@@ -153,7 +153,7 @@ class ScanRealTime(QWidget):
         confirm = QMessageBox.question(self, 'BaohuMe - Подтверждение', f'Файл по пути {file_path} успешно удален', QMessageBox.Close)
         if confirm == QMessageBox.Close:
             self.label.clear()
-            self.label.setText("Страница сканирования в реальном времени")
+            self.label.setText("Страница сканирования в реальном времени\n\nСтраница сканирования в реальном времени позволяет отслеживать\nфайловый менеджер windows при помощи хэш сканирования, то есть\nобнаруживать угрозу")
         
 
 """ Страница о разработчиках """
@@ -181,8 +181,8 @@ class DevelopersPage(QWidget):
         Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail
 
         Major Developer\t\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru
-        Major analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru
-        Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru
+        Major Analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru
+        Major Designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru
 
         Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать
         сложные вызовы и находить инновационные решения.
