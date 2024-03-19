@@ -19,6 +19,7 @@ class ScanPage(QWidget):
         """ Кнопка 'Выбора файла' """
         self.file_button = QPushButton("Выбрать файл")
         self.file_button.clicked.connect(self.select_file)
+        self.file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.layout.addWidget(self.file_button)
 
         self.setLayout(self.layout)
@@ -86,6 +87,7 @@ class ScanRealTime(QWidget):
 
         self.real_time_file_button = QPushButton("Запустить мониторинг файловой системы")
         self.real_time_file_button.clicked.connect(self.monitor_files)
+        self.real_time_file_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.layout.addWidget(self.real_time_file_button)
 
         self.setLayout(self.layout)
@@ -170,7 +172,7 @@ class MainWindow(QWidget):
         """ Изменение цвета программы """
         self.setAutoFillBackground(True)
         p = self.palette()
-        p.setColor(self.backgroundRole(), QColor(255, 255, 255))  # Изменение цвета страницы
+        p.setColor(self.backgroundRole(), QColor(19, 51, 50))  # Изменение цвета страницы
         self.setPalette(p)
 
 
@@ -179,18 +181,22 @@ class MainWindow(QWidget):
 
         self.scan_button = QPushButton("Сканирование")
         self.scan_button.clicked.connect(lambda: self.load_page(0))
+        self.scan_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.scan_button)
 
         self.scan_real_time = QPushButton("Сканирование в раельном времени")
         self.scan_real_time.clicked.connect(lambda: self.load_page(1))
+        self.scan_real_time.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.scan_real_time)
 
         self.developers_button = QPushButton("О разработчиках")
         self.developers_button.clicked.connect(lambda: self.load_page(2))
+        self.developers_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.developers_button)
 
         self.close_button = QPushButton("Закрыть")
         self.close_button.clicked.connect(self.close_app)
+        self.close_button.setStyleSheet("background-color: rgb(35, 74, 73); color: rgb(228, 208, 186);")
         self.menu_layout.addWidget(self.close_button)
 
         self.scan_page = ScanPage()
