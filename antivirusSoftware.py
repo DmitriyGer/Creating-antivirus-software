@@ -3,7 +3,7 @@ import sys, os, hashlib
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget, QMessageBox, QFileDialog
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QPixmap, QFont
 
 from helpers import database
 
@@ -14,7 +14,7 @@ class ScanPage(QWidget):
 
         """Текст в блоке 'Страница' """
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса")
+        self.label = QLabel("Страница сканирования\n\nСтраница сканирования позволяет проверить файл\nна наличие вредоностного ПО при помощи API-сервиса\n\nНеобходимо наличие подключения к интернету")
         font = QFont("Arial", 11)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(228, 208, 186);")
@@ -163,22 +163,64 @@ class DevelopersPage(QWidget):
 
         self.layout = QVBoxLayout()
 
-        self.label = QLabel(f"Сведения о разработчиках\n\n\
-Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail\n\n\
-Major Developer\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru\n\
-Major analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru\n\
-Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru\n\n\
-Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать\n\
-сложные вызовы и находить инновационные решения.\n\n\n\n\n\n\n\n\n\
-«Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,\n\
-искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».\n\
-\t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич")
+        # Создание QLabel для отображения текста
+        self.label = QLabel()
         font = QFont("Arial", 11)
         self.label.setFont(font)
         self.label.setStyleSheet("color: rgb(228, 208, 186);")
+
+        # Создание QLabel для отображения изображения
+        self.image_label = QLabel()
+        pixmap = QPixmap('images\\2.png') # обновите этот путь на путь к вашему изображению
+        self.image_label.setPixmap(pixmap.scaled(300, 150)) # выбираем необходимый размер картинки
+
+        # формирование окончательного текста
+        developers_text = f"""
+        Сведения о разработчиках
+
+        Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail
+
+        Major Developer\t\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru
+        Major analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru
+        Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru
+
+        Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать
+        сложные вызовы и находить инновационные решения.
+
+        «Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,
+        искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».
+        \t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич
+        """
+        self.label.setText(developers_text)
         self.layout.addWidget(self.label)
+        self.layout.addWidget(self.image_label)
 
         self.setLayout(self.layout)
+
+""" Без изображения """
+# class DevelopersPage(QWidget):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
+
+#         self.layout = QVBoxLayout()
+
+#         self.label = QLabel(f"Сведения о разработчиках\n\n\
+# Должность\t\tИмя\t\t\tGitHub\t\t\t\te-mail\n\n\
+# Major Developer\tGerasimov Dmitriy\thttps://github.com/DmitriyGer\tdim1a15@mail.ru\n\
+# Major analyst\t\tLoeva Taisiya\t\thttps://github.com/loevatss\ttayaloeva@mail.ru\n\
+# Major designer\t\tDryomin Vyacheslav\thttps://github.com/JohnHinster\tDryomin.JH@yandex.ru\n\n\
+# Наша команда разработчиков - это креативные и целеустремленные специалисты, готовые принимать\n\
+# сложные вызовы и находить инновационные решения.\n\n\n\n\n\n\n\n\n\
+# «Столкнувшись с трудностями, нельзя сдаваться, бежать. Вы должны оценивать ситуацию,\n\
+# искать решения и верить в то, что все делается к лучшему. Терпение – вот ключ к победе».\n\
+# {image}\
+# \t\t\t\t\t\t\t\t\t\t\t\tНик Вуйчич")
+#         font = QFont("Arial", 11)
+#         self.label.setFont(font)
+#         self.label.setStyleSheet("color: rgb(228, 208, 186);")
+#         self.layout.addWidget(self.label)
+
+#         self.setLayout(self.layout)
 
 
 """ Основной класс """
@@ -187,7 +229,6 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle('BaohuMe')
         self.resize(1300, 550)
-
 
         """ Изменение цвета программы """
         self.setAutoFillBackground(True)
