@@ -13,7 +13,7 @@ class ScanPage(QWidget):
 
         """Текст в блоке 'Страница' """
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования\n")
+        self.label = QLabel("Страница сканирования\n Страница сканирования позволяет проверить файл\n на наличие вредоностного ПО при помощи API-сервиса")
         self.layout.addWidget(self.label)
        
         """ Кнопка 'Выбора файла' """
@@ -82,7 +82,7 @@ class ScanRealTime(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница сканирования в реальном времени")
+        self.label = QLabel("Страница сканирования в реальном времени\n Страница сканирования в реальном времени позволяет отслеживать\n файловый менеджер windows при помощи хэш сканирования, то есть\n обнароживать угрозу ")
         self.layout.addWidget(self.label)
 
         self.real_time_file_button = QPushButton("Запустить мониторинг файловой системы")
@@ -155,7 +155,8 @@ class DevelopersPage(QWidget):
         super().__init__(parent)
 
         self.layout = QVBoxLayout()
-        self.label = QLabel("Страница о разработчиках")
+        self.label = QLabel("Страница о разработчиках\n Major developer:  Dmitry Gerasimov\n email: huihuihuihuihui228@mail.ru\n git: huihuihuihuihuihui\
+                            ")
         self.layout.addWidget(self.label)
 
         self.setLayout(self.layout)
